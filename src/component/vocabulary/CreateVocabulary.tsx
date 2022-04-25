@@ -88,6 +88,7 @@ export class CreateVocabulary extends AbstractCreateAsset<
       }),
       iri: this.state.iri + "/document",
       files: [],
+      websites: [],
     });
     document.addType(VocabularyUtils.DOCUMENT);
     vocabulary.document = document;
@@ -200,6 +201,7 @@ export class CreateVocabulary extends AbstractCreateAsset<
                 </ShowAdvanceAssetFields>
                 <Files
                   files={this.state.files}
+                  websites={[]}
                   actions={[
                     <AddFile
                       key="add-file"

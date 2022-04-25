@@ -133,6 +133,7 @@ describe("Vocabulary", () => {
         types: [VocabularyUtils.DOCUMENT],
         vocabulary: sut,
         files: [],
+        websites: [],
       });
       const result = sut.toJsonLd();
       const json = JSON.stringify(result);

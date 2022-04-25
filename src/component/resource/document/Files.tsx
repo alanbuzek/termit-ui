@@ -3,9 +3,11 @@ import File from "../../../model/File";
 import Utils from "../../../util/Utils";
 import { ButtonToolbar, Label, Table } from "reactstrap";
 import { useI18n } from "../../hook/useI18n";
+import Website from "src/model/Website";
 
 interface FilesProps {
   files: TermItFile[];
+  websites: Website[];
   actions: JSX.Element[];
   itemActions: (file: TermItFile) => JSX.Element[];
 }
@@ -13,6 +15,9 @@ interface FilesProps {
 const Files = (props: FilesProps) => {
   const { i18n } = useI18n();
   const files = Utils.sanitizeArray(props.files)
+    .slice()
+    .sort(Utils.labelComparator);
+  const websites = Utils.sanitizeArray(props.websites)
     .slice()
     .sort(Utils.labelComparator);
   return (
@@ -45,6 +50,26 @@ const Files = (props: FilesProps) => {
                 </td>
               </tr>
             ))}
+            {websites.length > 0 ? (
+              websites.map((v: Website) => (
+                <tr key={v.label}>
+                  <td className="align-middle">{v.label}</td>
+                  <td className="align-middle">
+                    <ButtonToolbar className="float-right">
+                      {/* <span>{v.label}</span> */}
+                      {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
+                      <a href={v.url} target="_blank" rel="noreferrer">
+                        {v.url}
+                      </a>
+                    </ButtonToolbar>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <div id="file-list-empty" className="italics">
+                {i18n("resource.metadata.document.websites.empty")}
+              </div>
+            )}
           </tbody>
         </Table>
       ) : (

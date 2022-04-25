@@ -64,6 +64,7 @@ export const DocumentFiles = (props: DocumentFilesProps) => {
   return (
     <Files
       files={document.files}
+      websites={document.websites}
       actions={[<AddFile key="add-file" performAction={createFile} />]}
       itemActions={(file: TermItFile) => [
         <FileContentLink key="show-content-file" file={file} />,

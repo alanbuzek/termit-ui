@@ -17,6 +17,7 @@ describe("DocumentFiles", () => {
       iri: Generator.generateUri(),
       label: "Test document",
       files: [],
+      websites: [],
       types: [VocabularyUtils.DOCUMENT, VocabularyUtils.RESOURCE],
     });
     actions = [];

@@ -114,6 +114,7 @@ describe("Utils", () => {
         iri: Generator.generateUri(),
         label: "Test",
         files: [],
+        websites: [],
         types: [VocabularyUtils.DOCUMENT, VocabularyUtils.RESOURCE],
       });
       expect(Utils.getAssetTypeLabelId(doc)).toEqual("type.document");

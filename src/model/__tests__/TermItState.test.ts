@@ -19,6 +19,7 @@ describe("TermItState", () => {
         types: [VocabularyUtils.DOCUMENT],
         vocabulary,
         files: [],
+        websites: [],
       });
       vocabulary.document = document;
       sut.vocabulary = vocabulary;
