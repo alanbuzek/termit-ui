@@ -1,12 +1,14 @@
 /// <reference types="chrome"/>
 
+import Constants from "./Constants";
+
 export enum ExtensionMessage {
   LoginEvent,
   LogoutEvent,
 }
 
 // TODO: not to be hardcoded
-const extensionId = "fcjdbebldbibeepgebafdghhdcneeaip";
+const extensionId = Constants.EXTENSION_ID;
 
 const Extension = {
   sendMessage({
