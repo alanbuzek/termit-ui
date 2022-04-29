@@ -9,6 +9,7 @@
     "@formatjs/intl-relativetimeformat": "^10.0.1",
     "@fortawesome/fontawesome-free": "^6.1.1",
     "@opendata-mvcr/assembly-line-shared": "^0.2.5",
+    "@types/chrome": "^0.0.183",
     "apexcharts": "^3.34.0",
     "axios": "^0.26.1",
     "bootstrap": "4.6.1",
