@@ -29,7 +29,7 @@ export const OutgoingLink: React.FC<OutgoingLinkProps> = (
       >
         <span className={props.showLink ? "" : "hidden"}>
           &nbsp;
-          <small className="text-sm">
+          <small>
             <i className="fas fa-external-link-alt text-primary" />
           </small>
         </span>
