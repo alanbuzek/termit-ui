@@ -22,6 +22,8 @@ const DocumentSummary: React.FC<DocumentSummaryProps> = ({
       onChange
     );
 
+  console.log("document: ", document);
+
   return document ? (
     <div className="metadata-panel">
       <ResourceMetadata resource={document} inTab={true} />

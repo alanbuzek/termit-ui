@@ -286,6 +286,7 @@ const cs = {
     "resource.create.file.select.label":
       "Přetáhněte sem soubor myší, nebo klikněte pro výběr pomocí dialogu",
     "resource.metadata.description": "Popis",
+    "resource.metadata.website.content": "Otevřít stránku",
     "resource.metadata.file.content": "Zobraz obsah",
     "resource.metadata.file.content.view": "Zobrazit",
     "resource.metadata.file.content.view.tooltip":

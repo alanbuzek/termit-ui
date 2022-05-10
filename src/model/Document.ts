@@ -32,6 +32,8 @@ export const CONTEXT = Object.assign(
   WEBSITE_CONTEXT
 );
 
+export type TermOccurrenceSource = Website | File;
+
 export interface DocumentData extends ResourceData {
   files: FileData[];
   websites: WebsiteData[];

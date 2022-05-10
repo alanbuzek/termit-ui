@@ -1,14 +1,23 @@
 import Constants from "./Constants";
 import IntlData from "../model/IntlData";
 import BrowserStorage from "./BrowserStorage";
+import Extension, { ExtensionMessage } from "./Extension";
 
 export function loadInitialLocalizationData(): IntlData {
   const prefLang = BrowserStorage.get(Constants.STORAGE_LANG_KEY);
   const lang = prefLang ? prefLang : navigator.language;
   if (lang && (lang.startsWith("cs") || lang.startsWith("sk"))) {
     setHtmlLanguage(Constants.LANG.CS.locale);
+    Extension.sendMessage({
+      messageType: ExtensionMessage.ConfigurationLoadedEvent,
+      payload: { locale: Constants.LANG.CS.locale },
+    });
     return loadLocalizationData(Constants.LANG.CS.locale);
   } else {
+    Extension.sendMessage({
+      messageType: ExtensionMessage.ConfigurationLoadedEvent,
+      payload: { locale: Constants.LANG.EN.locale },
+    });
     return loadLocalizationData(Constants.LANG.EN.locale);
   }
 }
@@ -23,6 +32,10 @@ export function loadLocalizationData(language: string): IntlData {
 }
 
 export function saveLanguagePreference(language: string): void {
+  Extension.sendMessage({
+    messageType: ExtensionMessage.ConfigurationLoadedEvent,
+    payload: { locale: language },
+  });
   BrowserStorage.set(Constants.STORAGE_LANG_KEY, language);
 }
 

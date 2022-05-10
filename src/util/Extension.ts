@@ -5,6 +5,7 @@ import Constants from "./Constants";
 export enum ExtensionMessage {
   LoginEvent,
   LogoutEvent,
+  ConfigurationLoadedEvent,
 }
 
 // TODO: not to be hardcoded

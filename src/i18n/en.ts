@@ -280,6 +280,7 @@ const en = {
     "resource.create.file.select.label":
       "Drag & drop a file here, or click to select file",
     "resource.metadata.description": "Description",
+    "resource.metadata.website.content": "Open website",
     "resource.metadata.file.content": "Show Content",
     "resource.metadata.file.content.view": "View",
     "resource.metadata.file.content.view.tooltip":
