@@ -17,6 +17,11 @@ import MessageType from "../model/MessageType";
 import ExportType from "../util/ExportType";
 import { AxiosResponse } from "axios";
 import Utils from "../util/Utils";
+import JsonLdUtils from "../util/JsonLdUtils";
+import AggregatedChangeInfo, {
+  AggregatedChangeInfoData,
+  CONTEXT as CHANGE_INFO_CONTEXT,
+} from "../model/changetracking/AggregatedChangeInfo";
 
 export function loadTermCount(vocabularyIri: IRI) {
   const action = { type: ActionType.LOAD_TERM_COUNT, vocabularyIri };
@@ -96,4 +101,69 @@ export function exportGlossaryWithExactMatchReferences(vocabularyIri: IRI) {
     withReferences: true,
     property: [VocabularyUtils.SKOS_EXACT_MATCH],
   });
+}
+
+/**
+ * Loads aggregated information about changes to terms in a vocabulary with the specified identifier.
+ *
+ * @param vocabularyIri Vocabulary identifier
+ */
+export function loadVocabularyContentChanges(vocabularyIri: IRI) {
+  const action = {
+    type: ActionType.LOAD_VOCABULARY_CONTENT_HISTORY,
+    ignoreLoading: true,
+  };
+  return (dispatch: ThunkDispatch) => {
+    dispatch(asyncActionRequest(action, true));
+    return Ajax.get(
+      `${Constants.API_PREFIX}/vocabularies/${vocabularyIri.fragment}/history-of-content`,
+      param("namespace", vocabularyIri.namespace)
+    )
+      .then((data) =>
+        JsonLdUtils.compactAndResolveReferencesAsArray<AggregatedChangeInfoData>(
+          data,
+          CHANGE_INFO_CONTEXT
+        )
+      )
+      .then((data: AggregatedChangeInfoData[]) => {
+        dispatch(asyncActionSuccess(action));
+        return data.map((d) => new AggregatedChangeInfo(d));
+      })
+      .catch((error: ErrorData) => {
+        dispatch(asyncActionFailure(action, error));
+        return [];
+      });
+  };
+}
+
+export function createVocabularySnapshot(vocabularyIri: IRI) {
+  const action = {
+    type: ActionType.CREATE_VOCABULARY_SNAPSHOT,
+    vocabularyIri,
+    ignoreLoading: true,
+  };
+  return (dispatch: ThunkDispatch) => {
+    dispatch(asyncActionRequest(action, true));
+    return Ajax.post(
+      `${Constants.API_PREFIX}/vocabularies/${vocabularyIri.fragment}/versions`,
+      param("namespace", vocabularyIri.namespace)
+    )
+      .then(() => {
+        dispatch(asyncActionSuccess(action));
+        return dispatch(
+          publishMessage(
+            new Message(
+              {
+                messageId: "vocabulary.snapshot.create.success",
+              },
+              MessageType.SUCCESS
+            )
+          )
+        );
+      })
+      .catch((error: ErrorData) => {
+        dispatch(asyncActionFailure(action, error));
+        return [];
+      });
+  };
 }
