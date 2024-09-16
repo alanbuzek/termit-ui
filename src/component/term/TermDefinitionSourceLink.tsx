@@ -9,9 +9,11 @@ import Routing from "../../util/Routing";
 import { useDispatch } from "react-redux";
 import { pushRoutingPayload } from "../../action/SyncActions";
 import { useI18n } from "../hook/useI18n";
-import File from "../../model/File";
 import { loadFileMetadata } from "../../action/AsyncResourceActions";
 import { ThunkDispatch } from "../../util/Types";
+import Website from "src/model/Website";
+import Resource from "src/model/Resource";
+import { TermOccurrenceSource } from "src/model/Document";
 
 interface TermDefinitionSourceLinkProps {
   term: Term;
@@ -22,7 +24,7 @@ export const TermDefinitionSourceLink: React.FC<TermDefinitionSourceLinkProps> =
     const defSource = props.term.definitionSource;
     const { i18n } = useI18n();
     const dispatch: ThunkDispatch = useDispatch();
-    const [file, setFile] = React.useState<File>();
+    const [resource, setResource] = React.useState<TermOccurrenceSource>();
     const target = defSource!.target;
     const targetIri = VocabularyUtils.create(target.source.iri!);
     React.useEffect(() => {
@@ -31,11 +33,24 @@ export const TermDefinitionSourceLink: React.FC<TermDefinitionSourceLinkProps> =
           loadFileMetadata(
             VocabularyUtils.create(defSource.target!.source!.iri!)
           )
-        ).then((file?: File) => setFile(file));
+        ).then((resource?: Resource) => setResource(resource));
       }
     }, [defSource, dispatch]);
     const navigateToDefinitionSource = () => {
-      if (!file || !file.owner) {
+      if (!resource || !resource.owner) {
+        return;
+      }
+
+      if (resource.types?.includes(VocabularyUtils.WEBSITE)) {
+        let url = (resource as Website).url;
+        const param = `termit-focus-annotation=${defSource?.iri}`;
+        if (url?.includes("?")) {
+          url += `&${param}`;
+        } else {
+          url += `?${param}`;
+        }
+
+        window.open(url, "_blank")?.focus();
         return;
       }
       // assert target.selectors.length === 1
@@ -44,7 +59,7 @@ export const TermDefinitionSourceLink: React.FC<TermDefinitionSourceLinkProps> =
           selector: Utils.sanitizeArray(target.selectors)[0],
         })
       );
-      const ownerIri = VocabularyUtils.create(file.owner.iri!);
+      const ownerIri = VocabularyUtils.create(resource.owner.iri!);
       Routing.transitionTo(Routes.annotateFile, {
         params: new Map([
           ["name", ownerIri.fragment],
@@ -63,7 +78,7 @@ export const TermDefinitionSourceLink: React.FC<TermDefinitionSourceLinkProps> =
           id="term-metadata-definitionSource-goto"
           color="primary"
           outline={true}
-          disabled={!file}
+          disabled={!resource}
           size="sm"
           className="ml-2"
           onClick={navigateToDefinitionSource}

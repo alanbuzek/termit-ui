@@ -21,7 +21,10 @@ describe("DocumentSummaryInTab", () => {
 
   beforeEach(() => {
     document = new Document(
-      Object.assign(Generator.generateAssetData("Test document"), { files: [] })
+      Object.assign(Generator.generateAssetData("Test document"), {
+        files: [],
+        websites: [],
+      })
     );
     onChange = jest.fn();
     fakeDispatch = jest.fn().mockResolvedValue({});

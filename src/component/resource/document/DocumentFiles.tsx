@@ -9,7 +9,7 @@ import {
   uploadFileContent,
 } from "../../../action/AsyncActions";
 import VocabularyUtils from "../../../util/VocabularyUtils";
-import Files from "./Files";
+import OccurrenceSources from "./OccurrenceSources";
 import NotificationType from "../../../model/NotificationType";
 import AppNotification from "../../../model/AppNotification";
 import { publishNotification } from "../../../action/SyncActions";
@@ -58,14 +58,17 @@ export const DocumentFiles = (props: DocumentFilesProps) => {
     [document, onFileRemoved, removeFile]
   );
 
+  console.log("document: ", document);
+
   if (!document) {
     return null;
   }
   return (
-    <Files
+    <OccurrenceSources
       files={document.files}
+      websites={document.websites}
       actions={[<AddFile key="add-file" performAction={createFile} />]}
-      itemActions={(file: TermItFile) => [
+      fileItemActions={(file: TermItFile) => [
         <FileContentLink key="show-content-file" file={file} />,
         <RemoveFile
           key="remove-file"

@@ -39,6 +39,7 @@ const constants = {
   VERSION: getEnv("VERSION"),
   // Will be replaced with actual deployment name during build
   DEPLOYMENT_NAME: getEnv("DEPLOYMENT_NAME", ""),
+  EXTENSION_ID: getEnv("EXTENSION_ID", ""),
   HOME_ROUTE: Routes.dashboard,
   LANG: {
     CS: {

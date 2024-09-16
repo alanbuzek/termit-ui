@@ -4,7 +4,7 @@ import TermItFile from "../../../../model/File";
 import VocabularyUtils from "../../../../util/VocabularyUtils";
 import Document from "../../../../model/Document";
 import Generator from "../../../../__tests__/environment/Generator";
-import Files from "../Files";
+import OccurrenceSources from "../OccurrenceSources";
 
 describe("DocumentFiles", () => {
   let document: Document;
@@ -17,6 +17,7 @@ describe("DocumentFiles", () => {
       iri: Generator.generateUri(),
       label: "Test document",
       files: [],
+      websites: [],
       types: [VocabularyUtils.DOCUMENT, VocabularyUtils.RESOURCE],
     });
     actions = [];
@@ -26,10 +27,11 @@ describe("DocumentFiles", () => {
 
   it("renders notice when no Files exist", () => {
     const wrapper = shallow(
-      <Files
+      <OccurrenceSources
+        websites={document.websites}
         files={document.files}
         actions={actions}
-        itemActions={itemActions}
+        fileItemActions={itemActions}
       />
     );
     expect(wrapper.exists("#file-list-empty")).toBeTruthy();

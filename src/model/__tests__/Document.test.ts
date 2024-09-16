@@ -36,6 +36,7 @@ describe("Document", () => {
         iri: Generator.generateUri(),
         label: "Document",
         files: [],
+        websites: [],
       });
       for (let i = 0; i < 5; i++) {
         sut.files.push(

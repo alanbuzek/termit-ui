@@ -3,6 +3,7 @@ import { userLogout } from "./SyncActions";
 import Routes from "../util/Routes";
 import Routing from "../util/Routing";
 import { ThunkDispatch } from "../util/Types";
+import Extension, { ExtensionMessage } from "src/util/Extension";
 
 /*
  * Complex actions are basically just nice names for actions which involve both synchronous and asynchronous actions.
@@ -12,6 +13,7 @@ import { ThunkDispatch } from "../util/Types";
 
 export function logout() {
   SecurityUtils.clearToken();
+  Extension.sendMessage({ messageType: ExtensionMessage.LogoutEvent });
   Routing.transitionTo(Routes.login);
   return (dispatch: ThunkDispatch) => {
     dispatch(userLogout());

@@ -49,6 +49,7 @@ describe("VocabularyMetadata", () => {
       iri: Generator.generateUri(),
       label: "Test document",
       files: [],
+      websites: [],
       types: [VocabularyUtils.RESOURCE, VocabularyUtils.DOCUMENT],
     });
     const wrapper = shallow<VocabularyMetadata>(
@@ -69,6 +70,7 @@ describe("VocabularyMetadata", () => {
       iri: Generator.generateUri(),
       label: "Test document",
       files: [],
+      websites: [],
       types: [VocabularyUtils.RESOURCE, VocabularyUtils.DOCUMENT],
     });
     shallow<VocabularyMetadata>(

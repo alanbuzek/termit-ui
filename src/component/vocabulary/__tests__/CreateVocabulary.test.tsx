@@ -154,6 +154,7 @@ describe("Create vocabulary view", () => {
       label: docLabel,
       types: docTypes,
       files: [],
+      websites: [],
     });
     wrapper.setState({ iri, label, comment });
     wrapper.update();

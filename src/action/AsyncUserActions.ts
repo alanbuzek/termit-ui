@@ -32,6 +32,8 @@ import { Action } from "redux";
 import { AxiosResponse } from "axios";
 import Routing from "../util/Routing";
 import { UserRoleData } from "../model/UserRole";
+import Extension, { ExtensionMessage } from "src/util/Extension";
+import SecurityUtils from "src/util/SecurityUtils";
 
 const USERS_ENDPOINT = "/users";
 
@@ -46,11 +48,19 @@ export function loadUser() {
         JsonLdUtils.compactAndResolveReferences<UserData>(data, USER_CONTEXT)
       )
       .then((data: UserData) => {
+        console.log("about to send login event");
+        Extension.sendMessage({
+          messageType: ExtensionMessage.LoginEvent,
+          payload: { userData: data, authToken: SecurityUtils.loadToken() },
+        });
         dispatch(loadConfiguration());
         return dispatch(asyncActionSuccessWithPayload(action, new User(data)));
       })
       .catch((error: ErrorData) => {
         if (error.status === Constants.STATUS_UNAUTHORIZED) {
+          Extension.sendMessage({
+            messageType: ExtensionMessage.LogoutEvent,
+          });
           return dispatch(
             asyncActionFailure(action, {
               message: "Not logged in.",

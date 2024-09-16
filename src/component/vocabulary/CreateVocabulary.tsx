@@ -23,7 +23,7 @@ import {
   uploadFileContent,
 } from "../../action/AsyncActions";
 import ShowAdvanceAssetFields from "../asset/ShowAdvancedAssetFields";
-import Files from "../resource/document/Files";
+import OccurrenceSources from "../resource/document/OccurrenceSources";
 import TermItFile from "../../model/File";
 import Utils from "../../util/Utils";
 import NotificationType from "../../model/NotificationType";
@@ -88,6 +88,7 @@ export class CreateVocabulary extends AbstractCreateAsset<
       }),
       iri: this.state.iri + "/document",
       files: [],
+      websites: [],
     });
     document.addType(VocabularyUtils.DOCUMENT);
     vocabulary.document = document;
@@ -198,15 +199,16 @@ export class CreateVocabulary extends AbstractCreateAsset<
                     </Col>
                   </Row>
                 </ShowAdvanceAssetFields>
-                <Files
+                <OccurrenceSources
                   files={this.state.files}
+                  websites={[]}
                   actions={[
                     <AddFile
                       key="add-file"
                       performAction={this.onCreateFile}
                     />,
                   ]}
-                  itemActions={(file: TermItFile) => [
+                  fileItemActions={(file: TermItFile) => [
                     <RemoveFile
                       key="remove-file"
                       file={file}

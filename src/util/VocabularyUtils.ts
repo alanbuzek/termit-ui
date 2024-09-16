@@ -63,6 +63,7 @@ const VocabularyUtils = {
   HAS_MODEL: _NS_POPIS_DAT + "má-model",
   TERM: _NS_SKOS + "Concept",
   FILE: _NS_POPIS_DAT + "soubor",
+  WEBSITE: _NS_POPIS_DAT + "webová-stránka",
   CONTENT: _NS_POPIS_DAT + "soubor/content",
   IS_PART_OF_DOCUMENT: _NS_POPIS_DAT + "je-částí-dokumentu",
   DOCUMENT: _NS_POPIS_DAT + "dokument",
@@ -84,23 +85,33 @@ const VocabularyUtils = {
   RESOURCE: _NS_POPIS_DAT + "zdroj",
   TERM_ASSIGNMENT: _NS_TERMIT + "přiřazení-termu",
   TERM_OCCURRENCE: _NS_TERMIT + "výskyt-termu",
+  WEBSITE_TERM_OCCURRENCE: _NS_TERMIT + "webový-výskyt-termu",
   TERM_DEFINITION_SOURCE: _NS_TERMIT + "zdroj-definice-termu",
+  DEFINITIONAL_OCCURRENCE: _NS_TERMIT + "definiční-výskyt-termu",
   JE_TEMATEM: _NS_TERMIT + "je-tématem",
   MA_MUJ_POSLEDNI_KOMENTAR: _NS_TERMIT + "má-můj-poslední-komentář",
   SUGGESTED_TERM_OCCURRENCE: _NS_TERMIT + "navržený-výskyt-termu",
   ASSIGNMENT_TARGET: _NS_TERMIT + "c\u00edl",
+  TERM_OCCURRENCE_TARGET: _NS_TERMIT + "cíl-výskytu",
   FILE_OCCURRENCE_TARGET: _NS_TERMIT + "c\u00edl-souborov\u00e9ho-v\u00fdskytu",
   DEFINITION_OCCURRENCE_TARGET:
     _NS_TERMIT + "c\u00edl-defini\u010dn\u00edho-v\u00fdskytu",
+  WEBSITE_OCCURRENCE_TARGET: _NS_TERMIT + "cíl-webového-výskytu",
+  HAS_WEBSITE_OCCURRENCE_TARGET: _NS_TERMIT + "má-cíl-webového-výskytu",
+  SELECTOR: _NS_TERMIT + "selektor",
   TEXT_QUOTE_SELECTOR: _NS_TERMIT + "selektor-text-quote",
+  TEXT_POSITION_SELECTOR: _NS_TERMIT + "selektor-pozici-v-textu",
+  CSS_SELECTOR: _NS_TERMIT + "selektor-css",
   HAS_DEFINITION_SOURCE: _NS_TERMIT + "m\u00e1-zdroj-definice-termu",
   HAS_FILE: _NS_POPIS_DAT + "má-soubor",
+  HAS_WEBSITE: _NS_POPIS_DAT + "má-webovou-stránku",
   HAS_AUTHOR: _NS_POPIS_DAT + "má-autora",
   CREATED: _NS_POPIS_DAT + "má-datum-a-čas-vytvoření",
   HAS_LAST_EDITOR: _NS_POPIS_DAT + "má-posledního-editora",
   LAST_MODIFIED: _NS_POPIS_DAT + "má-datum-a-čas-poslední-modifikace",
   IMPORTS_VOCABULARY: _NS_POPIS_DAT + "importuje-slovník",
   NS_TERMIT: _NS_TERMIT,
+  WEBSITE_URL: _NS_DC + "Location",
   USER: _NS_TERMIT + "uživatel-termitu",
   USER_ADMIN: _NS_TERMIT + "administrátor-termitu",
   USER_LOCKED: _NS_TERMIT + "uzam\u010den\u00fd-u\u017eivatel-termitu",
@@ -109,6 +120,7 @@ const VocabularyUtils = {
   HAS_COUNT: _NS_TERMIT + "has-count",
   PREFIX_RDFS: _NS_RDFS,
   RDF_TYPE: _NS_RDF + "type",
+  RDF_VALUE: _NS_RDF + "value",
   RDFS_LABEL: _NS_RDFS + "label",
   RDFS_COMMENT: _NS_RDFS + "comment",
   RDFS_RESOURCE: _NS_RDFS + "Resource",
@@ -148,7 +160,10 @@ const VocabularyUtils = {
     const hashFragment = iri.indexOf("#");
     const slashFragment = iri.lastIndexOf("/");
     const fragment = hashFragment < 0 ? slashFragment : hashFragment;
-    return new IRIImpl(iri.substr(fragment + 1), iri.substr(0, fragment + 1));
+    return new IRIImpl(
+      iri.substring(fragment + 1),
+      iri.substring(0, fragment + 1)
+    );
   },
 };
 

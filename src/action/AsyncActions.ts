@@ -68,6 +68,7 @@ import { ConsolidatedResults } from "../model/ConsolidatedResults";
 import UserRole, { UserRoleData } from "../model/UserRole";
 import { loadTermCount } from "./AsyncVocabularyActions";
 import { getApiPrefix } from "./ActionUtils";
+import Extension, { ExtensionMessage } from "src/util/Extension";
 
 /*
  * Asynchronous actions involve requests to the backend server REST API. As per recommendations in the Redux docs, this consists
@@ -1344,6 +1345,12 @@ export function loadConfiguration() {
         data.roles = Utils.sanitizeArray(data.roles).map(
           (d: UserRoleData) => new UserRole(d)
         );
+
+        Extension.sendMessage({
+          messageType: ExtensionMessage.ConfigurationLoadedEvent,
+          // only langauge is needed as of now
+          payload: { language: data.language },
+        });
         return dispatch(asyncActionSuccessWithPayload(action, data));
       })
       .catch((error) => dispatch(asyncActionFailure(action, error)));
